@@ -11,14 +11,17 @@ import java.net.URL;
 
 @RestController
 public class ValidationController {
+
     @Autowired
-    UrlValidation urlValidation;
+    private UrlValidation urlValidation;
+
     @PostMapping("/validation")
     public void validationCheck(@RequestBody Url url ){
         System.out.println("Url posted: "+url.getUrl());
 
         if(urlValidation.validateURL(url.getUrl())){
             //proceed with forwarding request to shorten-service
+
         }
     }
 }
