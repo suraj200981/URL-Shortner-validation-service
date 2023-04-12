@@ -1,7 +1,9 @@
 package com.example.url.shortner.microservices.validationservice.service;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.stereotype.Component;
 
+@Component
 public class GenerateShortUrl {
 
     public String mainURL = "localhost:8000";

@@ -1,5 +1,8 @@
 package com.example.url.shortner.microservices.validationservice.service;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class PrefixCheck {
 
 

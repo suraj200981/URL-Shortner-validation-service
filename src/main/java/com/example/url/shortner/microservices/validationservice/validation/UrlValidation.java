@@ -1,6 +1,7 @@
 package com.example.url.shortner.microservices.validationservice.validation;
 
 import com.example.url.shortner.microservices.validationservice.model.Url;
+import com.example.url.shortner.microservices.validationservice.service.GenerateShortUrl;
 import com.example.url.shortner.microservices.validationservice.service.LengthCheck;
 import com.example.url.shortner.microservices.validationservice.service.PrefixCheck;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class UrlValidation {
     @Autowired
     PrefixCheck prefixCheck;
 
+    @Autowired
+    GenerateShortUrl generateShortUrl;
+
     public Boolean validateURL(String url){
         if(lengthCheck.checkLength(url)){
 
@@ -22,13 +26,16 @@ public class UrlValidation {
 
             if (prefixCheck.checkPrefix(url)) {
 
+                System.out.println(generateShortUrl.generateNewUrl(url, ""));
+
+            }else {
+                System.out.println(generateShortUrl.generateNewUrl(url, "http://"));
             }
+            return true;
 
         }else {
             throw new RuntimeException("Failed url length check/dot check failed");
         }
-
-        return true;
     }
 
 }
