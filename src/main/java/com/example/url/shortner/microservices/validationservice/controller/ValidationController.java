@@ -17,12 +17,6 @@ public class ValidationController {
     @Autowired
     private UrlValidation urlValidation;
 
-    @Autowired
-    private ProxyRequest proxyRequest;
-
-    public ValidationController(ProxyRequest proxyRequest) {
-        this.proxyRequest = proxyRequest;
-    }
 
 
     @PostMapping("/validation")
@@ -31,9 +25,7 @@ public class ValidationController {
 
         if(urlValidation.validateURL(url.getUrl())){
             log.info("Url validation check passed");
-            UrlDTO dto = new UrlDTO();
-            dto.setOriginalUrl(url.toString());
-            proxyRequest.shortenUrlRequest(dto);
+            log.info("Url sent to shortener microservice");
         }else {
             log.error("URL validation check failed. Please check length/placement of '.' in the url");
         }

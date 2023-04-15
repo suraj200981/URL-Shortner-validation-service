@@ -18,8 +18,8 @@ public class UrlValidation {
     @Autowired
     PrefixCheck prefixCheck;
 
-//    @Autowired(required=true)
-
+    @Autowired
+    ProxyRequest proxyRequest;
 
     public Boolean validateURL(String url){
         if(lengthCheck.checkLength(url)){
@@ -29,10 +29,17 @@ public class UrlValidation {
             if (prefixCheck.checkPrefix(url)) {
 
                 log.info("Prefix check passed");
+                UrlDTO dto = new UrlDTO();
+                dto.setOriginalUrl(url);
+                proxyRequest.shortenUrlRequest(dto);
                 return true;
 
             }else {
                 log.info("Prefix check passed but prefix needs to be added");
+                UrlDTO dto = new UrlDTO();
+                dto.setOriginalUrl(url);
+                dto.setPrefix("https://");
+                proxyRequest.shortenUrlRequest(dto);
                 return true;
             }
         }else {
