@@ -1,5 +1,7 @@
 package com.example.url.shortner.microservices.validationservice.validation;
 
+import com.example.url.shortner.microservices.validationservice.model.UrlDTO;
+import com.example.url.shortner.microservices.validationservice.request.ProxyRequest;
 import com.example.url.shortner.microservices.validationservice.service.LengthCheck;
 import com.example.url.shortner.microservices.validationservice.service.PrefixCheck;
 import lombok.extern.slf4j.Slf4j;
@@ -16,25 +18,26 @@ public class UrlValidation {
     @Autowired
     PrefixCheck prefixCheck;
 
+//    @Autowired(required=true)
+
 
     public Boolean validateURL(String url){
         if(lengthCheck.checkLength(url)){
 
-            log.info("Proceed with prefix check");
+            log.info("Length check passed");
 
             if (prefixCheck.checkPrefix(url)) {
 
-                log.info("Validation checks of url have passed");
+                log.info("Prefix check passed");
+                return true;
 
             }else {
-//                System.out.println(generateShortUrl.generateNewUrl(url, "http://"));
+                log.info("Prefix check passed but prefix needs to be added");
+                return true;
             }
-            return true;
-
         }else {
             log.error("Validation checks of url have failed");
-
-            throw new RuntimeException("Failed url length check/dot check failed");
+            return false;
         }
     }
 
