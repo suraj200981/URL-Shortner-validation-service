@@ -17,7 +17,6 @@ public class UrlValidation {
     @Autowired
     PrefixCheck prefixCheck;
 
-
     public Boolean validateURL(String url) {
         if (lengthCheck.checkLength(url)) {
 
