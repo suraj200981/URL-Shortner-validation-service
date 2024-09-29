@@ -3,6 +3,7 @@ package com.example.url.shortner.microservices.validationservice.controller;
 import com.example.url.shortner.microservices.validationservice.model.Url;
 import com.example.url.shortner.microservices.validationservice.model.UrlDTO;
 import com.example.url.shortner.microservices.validationservice.request.ProxyRequest;
+import com.example.url.shortner.microservices.validationservice.service.PrefixCheck;
 import com.example.url.shortner.microservices.validationservice.validation.UrlValidation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +26,23 @@ public class ValidationController {
     @Autowired
     ProxyRequest proxyRequest;
 
+    @Autowired
+    PrefixCheck prefixCheck;
+
     @PostMapping("/validation")
-    public ResponseEntity<String> validationCheck(@RequestBody Url url ){
+    public ResponseEntity<String> validationCheck(@RequestBody Url url ) throws Exception {
         System.out.println("Url posted: "+url.getUrl());
 
         if(urlValidation.validateURL(url.getUrl())){
-
-            log.info("Prefix check passed but prefix needs to be added");
             UrlDTO dto = new UrlDTO();
             dto.setOriginalUrl(url.getUrl());
-            dto.setPrefix("https://");
+            log.info("Proceeding with prefix inspection");
+            if (prefixCheck.prefixStringInspector(url.getUrl()).equals("false")) {
+                dto.setPrefix("https://");
+
+            }else{
+                dto.setPrefix(prefixCheck.prefixStringInspector(url.getUrl()));
+            }
             Date date = new Date();
             dto.setCreatedAt(date);
             log.info("Url validation check passed");

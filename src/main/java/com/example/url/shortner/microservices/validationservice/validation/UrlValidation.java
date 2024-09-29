@@ -22,17 +22,12 @@ public class UrlValidation {
 
             log.info("Length check passed");
 
-            if (prefixCheck.checkPrefix(url)) {
-                return true;
-            }else{
-                //http prefix not present
-                return true;
-
-            }
         } else {
-            log.error("Validation checks of url have failed");
+            log.error("Validation checks of url have failed with the length");
             return false;
         }
-    }
+        return true;
 
+    }
 }
+
